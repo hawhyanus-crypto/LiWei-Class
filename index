@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>LinguaHub | Kelas Mandarin & Inggris Offline</title>
+    <!-- Google Fonts + Font Awesome + Swiper -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #1f2937;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+        }
+        /* navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f2f5;
+            margin-bottom: 2rem;
+        }
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #EA4335, #4285F4, #34A853, #FBBC05);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .lang-buttons {
+            display: flex;
+            gap: 0.6rem;
+        }
+        .lang-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1e293b;
+        }
+        .lang-btn.active {
+            background: #4285F4;
+            color: white;
+        }
+        .lang-btn[data-lang="id"].active { background: #EA4335; }
+        .lang-btn[data-lang="zh"].active { background: #34A853; }
+        .lang-btn[data-lang="en"].active { background: #FBBC05; color: #1e293b; }
+        .lang-btn:hover {
+            opacity: 0.85;
+        }
+        /* hero */
+        .hero {
+            text-align: center;
+            padding: 1rem 0 2rem;
+        }
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #EA4335, #4285F4);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: #475569;
+        }
+        /* section title */
+        .section-title {
+            font-size: 1.7rem;
+            font-weight: 600;
+            margin: 2rem 0 1.2rem 0;
+            padding-left: 1rem;
+            border-left: 5px solid #4285F4;
+        }
+        /* cards */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin: 1.5rem 0;
+        }
+        .card {
+            background: #fafcff;
+            border-radius: 24px;
+            padding: 1.6rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid #eef2f8;
+            transition: all 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #dce3ec;
+        }
+        .card i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        /* multi warna icon */
+        .card:nth-child(1) i { color: #EA4335; }
+        .card:nth-child(2) i { color: #4285F4; }
+        .card:nth-child(3) i { color: #34A853; }
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #0f172a;
+        }
+        /* jadwal */
+        .schedule-box {
+            background: #fafcff;
+            border-radius: 24px;
+            padding: 1.5rem;
+            border: 1px solid #eef2f8;
+        }
+        .jadwal-list li {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.7rem 0;
+            border-bottom: 1px solid #edf2f7;
+        }
+        .day {
+            font-weight: 700;
+            min-width: 130px;
+            color: #0f172a;
+        }
+        .time {
+            background: #f1f5f9;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+        }
+        /* swiper */
+        .swiper {
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+        .swiper-slide img {
+            width: 100%;
+            height: 360px;
+            object-fit: cover;
+        }
+        .swiper-button-next, .swiper-button-prev {
+            color: #4285F4;
+            background: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .swiper-pagination-bullet-active {
+            background: #EA4335;
+        }
+        /* WA button */
+        .wa-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            background: #25D366;
+            color: #1e293b;
+            font-weight: 600;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            text-decoration: none;
+            margin: 2rem 0;
+        }
+        .wa-btn:hover {
+            background: #20b359;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #5b6e8c;
+            border-top: 1px solid #edf2f7;
+            font-size: 0.8rem;
+        }
+        @media (max-width: 700px) {
+            .container {
+                padding: 1rem;
+            }
+            .hero h1 { font-size: 1.9rem; }
+            .section-title { font-size: 1.4rem; }
+            .swiper-slide img { height: 200px; }
+            .navbar { flex-direction: column; }
+        }
+        .text-center { text-align: center; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navbar">
+        <div class="logo">Lingua<span style="color:#EA4335;">Hub</span></div>
+        <div class="lang-buttons">
+            <button class="lang-btn" data-lang="id">🇮🇩 Indonesia</button>
+            <button class="lang-btn" data-lang="zh">🇨🇳 中文</button>
+            <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1 id="hero-title">Kelas Offline Mandarin & Inggris</h1>
+        <p id="hero-sub">Tatap muka • Persiapan HSK, IELTS, TOEFL • Semua level</p>
+    </div>
+
+    <div class="grid-3">
+        <div class="card"><i class="fas fa-user-graduate"></i><h3 id="c1-title">Pemula & Profesional</h3><p id="c1-desc">Dari dasar hingga mahir. Kelas kecil interaktif.</p></div>
+        <div class="card"><i class="fas fa-file-alt"></i><h3 id="c2-title">Ujian Internasional</h3><p id="c2-desc">Bimbingan HSK, IELTS, TOEFL dengan simulasi.</p></div>
+        <div class="card"><i class="fas fa-building"></i><h3 id="c3-title">Offline & Nyaman</h3><p id="c3-desc">Ruangan ber-AC, modul, dan jejaring sosial. Tanpa online.</p></div>
+    </div>
+
+    <h2 class="section-title" id="schedule-title">📅 Jadwal Kelas</h2>
+    <div class="schedule-box">
+        <ul class="jadwal-list" id="schedule-list"></ul>
+        <p style="margin-top: 0.8rem; font-size:0.85rem;" id="info-note">* Hanya kelas offline / tatap muka</p>
+    </div>
+
+    <h2 class="section-title" id="gallery-title">📸 Suasana Belajar</h2>
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper" id="swiper-wrapper">
+            <div class="swiper-slide"><img src="https://placehold.co/1200x600/eef2ff/1e3a8a?text=Kelas+Interaktif" alt="kelas"></div>
+            <div class="swiper-slide"><img src="https://placehold.co/1200x600/fef2e8/1e3a8a?text=Diskusi+Kelompok" alt="diskusi"></div>
+            <div class="swiper-slide"><img src="https://placehold.co/1200x600/e6f7ec/1e3a8a?text=Latihan+Soal" alt="latihan"></div>
+            <div class="swiper-slide"><img src="https://placehold.co/1200x600/fff4e5/1e3a8a?text=Suasana+Kelas" alt="suasana"></div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+    <p class="text-center" style="margin-top:0.6rem; font-size:0.8rem;" id="gallery-caption">Gambaran ruang kelas & metode belajar</p>
+
+    <div class="text-center">
+        <a href="#" id="whatsapp-link" class="wa-btn" target="_blank"><i class="fab fa-whatsapp"></i> <span id="wa-text">Hubungi WhatsApp</span></a>
+        <p id="contact-sub" style="margin-top:-1rem; font-size:0.75rem;">Klik untuk konsultasi jadwal & biaya</p>
+    </div>
+
+    <footer><p id="footer-text">© 2025 LinguaHub | Kelas offline Mandarin & Inggris</p></footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    const WA_NUMBER = "6281234567890"; // GANTI DENGAN NOMOR WHATSAPP ANDA
+
+    const langData = {
+        id: {
+            hero_title: "Kelas Offline Mandarin & Inggris",
+            hero_sub: "Tatap muka • Persiapan HSK, IELTS, TOEFL • Semua level",
+            c1_title: "Pemula & Profesional", c1_desc: "Dari dasar hingga mahir. Kelas kecil interaktif.",
+            c2_title: "Ujian Internasional", c2_desc: "Bimbingan HSK, IELTS, TOEFL dengan simulasi.",
+            c3_title: "Offline & Nyaman", c3_desc: "Ruangan ber-AC, modul, dan jejaring sosial. Tanpa online.",
+            schedule_title: "📅 Jadwal Kelas", schedule_items: [{day:"Senin",time:"17:00-19:00"},{day:"Selasa - Jumat",time:"18:30-20:30"},{day:"Sabtu",time:"11:00-14:00"},{day:"Minggu",time:"14:00-16:00"}],
+            gallery_title: "📸 Suasana Belajar", gallery_caption: "Gambaran ruang kelas & metode belajar",
+            wa_text: "Hubungi WhatsApp", contact_sub: "Klik untuk konsultasi jadwal & biaya", footer_text: "© 2025 LinguaHub | Kelas offline Mandarin & Inggris"
+        },
+        zh: {
+            hero_title: "线下汉语与英语课程", hero_sub: "面授 • HSK/雅思/托福备考 • 全等级",
+            c1_title: "初学者与专业人士", c1_desc: "从零基础到高阶，小班互动。",
+            c2_title: "国际备考", c2_desc: "HSK/雅思/托福模拟与精讲。",
+            c3_title: "线下舒适", c3_desc: "空调教室，学习资料，社交网络。无线课程。",
+            schedule_title: "📅 课程时间", schedule_items: [{day:"周一",time:"17:00-19:00"},{day:"周二至周五",time:"18:30-20:30"},{day:"周六",time:"11:00-14:00"},{day:"周日",time:"14:00-16:00"}],
+            gallery_title: "📸 课堂环境", gallery_caption: "教室与互动学习掠影",
+            wa_text: "联系WhatsApp", contact_sub: "点击咨询课程与费用", footer_text: "© 2025 LinguaHub | 线下汉语英语课程"
+        },
+        en: {
+            hero_title: "Offline Mandarin & English Classes", hero_sub: "Face-to-face • HSK, IELTS, TOEFL prep • All levels",
+            c1_title: "Beginners & Professionals", c1_desc: "From zero to advanced. Small interactive groups.",
+            c2_title: "International Exams", c2_desc: "HSK, IELTS, TOEFL mock tests & coaching.",
+            c3_title: "Offline & Cozy", c3_desc: "AC room, materials, social networking. No online.",
+            schedule_title: "📅 Class Schedule", schedule_items: [{day:"Monday",time:"5:00-7:00PM"},{day:"Tue - Fri",time:"6:30-8:30PM"},{day:"Saturday",time:"11:00AM-2:00PM"},{day:"Sunday",time:"2:00-4:00PM"}],
+            gallery_title: "📸 Classroom Atmosphere", gallery_caption: "Glimpse of learning spaces",
+            wa_text: "Contact WhatsApp", contact_sub: "Click for schedule & fees", footer_text: "© 2025 LinguaHub | Offline Mandarin & English"
+        }
+    };
+
+    let currentLang = "id";
+    function updateLang(lang) {
+        const d = langData[lang];
+        if(!d) return;
+        document.getElementById("hero-title").innerText = d.hero_title;
+        document.getElementById("hero-sub").innerText = d.hero_sub;
+        document.getElementById("c1-title").innerText = d.c1_title;
+        document.getElementById("c1-desc").innerText = d.c1_desc;
+        document.getElementById("c2-title").innerText = d.c2_title;
+        document.getElementById("c2-desc").innerText = d.c2_desc;
+        document.getElementById("c3-title").innerText = d.c3_title;
+        document.getElementById("c3-desc").innerText = d.c3_desc;
+        document.getElementById("schedule-title").innerText = d.schedule_title;
+        document.getElementById("gallery-title").innerText = d.gallery_title;
+        document.getElementById("gallery-caption").innerText = d.gallery_caption;
+        document.getElementById("wa-text").innerText = d.wa_text;
+        document.getElementById("contact-sub").innerText = d.contact_sub;
+        document.getElementById("footer-text").innerText = d.footer_text;
+
+        const scheduleList = document.getElementById("schedule-list");
+        scheduleList.innerHTML = "";
+        d.schedule_items.forEach(item => {
+            let li = document.createElement("li");
+            li.innerHTML = `<span class="day">${item.day}</span> <span class="time">${item.time}</span>`;
+            scheduleList.appendChild(li);
+        });
+        document.querySelectorAll(".lang-btn").forEach(btn => {
+            btn.classList.remove("active");
+            if(btn.getAttribute("data-lang") === lang) btn.classList.add("active");
+        });
+        currentLang = lang;
+        updateWALink();
+    }
+    function updateWALink() {
+        let msg = "";
+        if(currentLang === "id") msg = "Halo, saya tertarik dengan kelas offline Mandarin/Inggris. Info jadwal?";
+        else if(currentLang === "zh") msg = "您好，我想咨询线下汉语/英语课程，请问时间与报名。";
+        else msg = "Hello, I'm interested in offline Mandarin/English classes. Please share schedule.";
+        document.getElementById("whatsapp-link").href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+    }
+    document.querySelectorAll(".lang-btn").forEach(btn => {
+        btn.addEventListener("click", () => updateLang(btn.getAttribute("data-lang")));
+    });
+    updateLang("id");
+    new Swiper(".mySwiper", { loop: true, autoplay: { delay: 4000 }, pagination: { el: ".swiper-pagination", clickable: true }, navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" } });
+</script>
+</body>
+</html>
